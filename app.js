@@ -4,9 +4,16 @@ var bodyParser          = require("body-parser"),
     mongoose            = require("mongoose"),
     express             = require("express"),
     app                 = express();
-    
+
 // APP CONFIG
-mongoose.connect("mongodb://localhost:27017/restful_blog_app", {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://blog:blog@cluster0-ytvd1.mongodb.net/test?retryWrites=true&w=majority",
+    {
+        // useMongoClient: true
+        useNewUrlParser: true
+    }
+);
+
+
 mongoose.set("useFindAndModify", false);
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -69,7 +76,7 @@ app.get("/blogs/:id", function(req, res){
        else{
            res.render("show", {blog:foundBlog});
        }
-   }); 
+   });
 });
 
 //EDIT ROUTE
@@ -79,7 +86,7 @@ app.get("/blogs/:id/edit", function(req, res) {
             res.redirect("/blogs");
         }
         else{
-            res.render("edit", {blog: foundBlog});    
+            res.render("edit", {blog: foundBlog});
         }
     });
 });
@@ -116,3 +123,7 @@ app.delete("/blogs/:id", function(req, res){
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("SERVER IS RUNNING");
 });
+
+// app.listen(8881, function(){                                                    // to start the server
+//     console.log("The Sever has Started!");
+// });
